@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons";
+
+.pointer {
+  cursor: pointer;
+}
+.blocked {
+  cursor: not-allowed;
+}
+i.bi {
+  font-size: 1.25rem;
+}

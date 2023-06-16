@@ -1,0 +1,14 @@
+<a
+  type="button"
+  aria-label="switch tema giorno/notte"
+  class="nav-link"
+  (click)="toggleTheme()"
+>
+  <i
+    class="bi"
+    [ngClass]="{
+      'bi-moon-stars': theme() === 'light',
+      'bi-sun': theme() === 'dark'
+    }"
+  ></i>
+</a>

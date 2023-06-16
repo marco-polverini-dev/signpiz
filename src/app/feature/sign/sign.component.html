@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row row-cols-1 g-4">
+    <div class="col">
+      <div
+        class="card p-5 text-bg-success"
+        [ngClass]="{
+          pointer: !today || !today.entrance,
+          'blocked bg-opacity-25': today && today.entrance
+        }"
+        (click)="(!today || !today.entrance) && entrance()"
+      >
+        <div class="card-body d-flex align-items-center justify-content-center">
+          <h5 class="card-title mb-0">
+            <span *ngIf="!today || !today.entrance">Entrata</span
+            ><span *ngIf="today && today.entrance"
+              >Entrata alle ore {{ getHours(today.entrance) }}</span
+            >
+          </h5>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div
+        class="card p-5 text-bg-danger pointer"
+        (click)="(!today || !today.exit) && exit()"
+        [ngClass]="{
+          pointer: !today || !today.exit,
+          'bg-opacity-25 blocked': (today && today.exit) || !today?.entrance
+        }"
+      >
+        <div class="card-body d-flex align-items-center justify-content-center">
+          <h5 class="card-title mb-0">
+            <span *ngIf="!today || !today.exit">Uscita</span
+            ><span *ngIf="today && today.exit"
+              >Uscita alle ore {{ getHours(today.exit) }}</span
+            >
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5" *ngIf="today && today.entrance && today.exit">
+    <div class="col">
+      <p class="text-center fw-bold fs-5">
+        Per oggi le timbrature sono state effettuate 😀
+      </p>
+    </div>
+  </div>
+</div>

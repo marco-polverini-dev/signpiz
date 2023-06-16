@@ -1,0 +1,60 @@
+<div class="container">
+  <form [formGroup]="form" class="row mb-5" (ngSubmit)="find()">
+    <div class="col-1 col-md-auto">
+      <label for="da" class="col-form-label">Da</label>
+    </div>
+    <div class="col-11 col-md">
+      <input
+        type="date"
+        class="form-control"
+        formControlName="from"
+        name="from"
+        placeholder="Da"
+        aria-label="Da"
+      />
+    </div>
+    <div class="col-1 mt-3 mt-md-0 col-md-auto">
+      <label for="a" class="col-form-label">A</label>
+    </div>
+    <div class="col-11 mt-3 mt-md-0 col-md">
+      <input
+        type="date"
+        class="form-control"
+        formControlName="to"
+        name="to"
+        placeholder="A"
+        aria-label="A"
+      />
+    </div>
+    <div class="col-12 col-md-auto text-center mt-3 mt-md-0">
+      <button [disabled]="form.invalid" class="btn btn-success" type="submit">
+        Cerca
+      </button>
+    </div>
+  </form>
+  <ol class="list-group">
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">Data</div>
+      </div>
+      <span class="badge bg-success rounded-pill me-3">Entrata</span>
+      <span class="badge bg-danger rounded-pill">Uscita</span>
+    </li>
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center"
+      *ngFor="let entry of SHEET | keyvalue"
+    >
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{ getDate(entry.key) }}</div>
+      </div>
+      <span class="badge bg-success rounded-pill me-3">{{
+        getHours(entry.value.entrance)
+      }}</span>
+      <span class="badge bg-danger rounded-pill">{{
+        getHours(entry.value.exit)
+      }}</span>
+    </li>
+  </ol>
+</div>
