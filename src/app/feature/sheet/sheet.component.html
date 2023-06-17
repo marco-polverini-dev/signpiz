@@ -1,6 +1,6 @@
 <div class="container">
   <ng-container *ngIf="SHEET.size > 0">
-    <form [formGroup]="form" class="row mb-5" (ngSubmit)="find()">
+    <form [formGroup]="form" class="row mb-3" (ngSubmit)="find()">
       <div class="col-1 col-md-auto">
         <label for="da" class="col-form-label">Da</label>
       </div>
@@ -66,7 +66,27 @@
         "
       >
         <div class="ms-2 me-auto">
-          <div class="fw-bold">{{ getDate(entry.key) }}</div>
+          <div class="fw-bold d-flex align-items-center">
+            {{ getDate(entry.key)
+            }}<a
+              type="button"
+              class="ms-2 text-primary"
+              aria-label="modifica la giornata"
+              ><i class="bi bi-pencil-fill"></i> </a
+            ><a
+              *ngIf="entry.key === today"
+              type="button"
+              class="ms-2 text-warning"
+              aria-label="rimuovi uscita"
+              ><i class="bi bi-pencil-square"></i>
+            </a>
+            <a
+              type="button"
+              class="ms-2 text-danger"
+              aria-label="rimuove la giornata"
+              ><i class="bi bi-trash-fill"></i>
+            </a>
+          </div>
         </div>
         <span class="badge bg-success rounded-pill me-3">{{
           getHours(entry.value.entrance)
@@ -93,6 +113,32 @@
         </li>
       </ul>
     </nav>
+    <div class="row">
+      <div class="col-auto">
+        <div class="d-flex align-items-center justify-content-center">
+          <a class="mx-2 text-primary" aria-label="rimuove la giornata"
+            ><i class="bi bi-pencil-fill"></i>
+          </a>
+          <small class="text-muted">Modifica la giornata</small>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="d-flex align-items-center justify-content-center">
+          <a class="mx-2 text-warning" aria-label="rimuovi uscita"
+            ><i class="bi bi-pencil-square"></i>
+          </a>
+          <small class="text-muted">Rimuove l'uscita del giorno</small>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="d-flex align-items-center justify-content-center">
+          <a class="mx-2 text-danger" aria-label="rimuove la giornata"
+            ><i class="bi bi-trash-fill"></i>
+          </a>
+          <small class="text-muted">Rimuove la giornata</small>
+        </div>
+      </div>
+    </div>
   </ng-container>
   <div class="row mt-5" *ngIf="SHEET.size === 0">
     <div class="col">

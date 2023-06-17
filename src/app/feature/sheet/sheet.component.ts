@@ -4,6 +4,7 @@ import { Sign } from '../sign/sign.model';
 import {
   getDate,
   getHours,
+  getTodayUnix,
   getUnix,
   isBetween,
 } from 'src/app/core/utils/date.utils';
@@ -32,6 +33,7 @@ export class SheetComponent {
   pageSize: number = 10;
   pages: number = 0;
   searched: boolean = false;
+  today: number;
 
   constructor() {
     this.formBuilder = inject(FormBuilder);
@@ -42,6 +44,7 @@ export class SheetComponent {
       from: this.formBuilder.control(null, [Validators.required]),
       to: this.formBuilder.control(null, [Validators.required]),
     });
+    this.today = getTodayUnix();
   }
 
   getSheet(): Map<number, Sign> {
