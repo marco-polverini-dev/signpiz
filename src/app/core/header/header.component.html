@@ -7,16 +7,21 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <a routerLink="sign" class="nav-link"
-          ><i class="bi bi-door-open-fill"></i> Timbratura
+          ><i class="bi bi-door-open-fill"></i>
+          <span class="ms-1 d-none d-md-inline">Timbratura</span>
         </a>
       </li>
       <li class="nav-item">
         <a routerLink="sheet" class="nav-link"
-          ><i class="bi bi-file-spreadsheet-fill"></i> Foglio</a
+          ><i class="bi bi-file-spreadsheet-fill"></i>
+          <span class="ms-1 d-none d-md-inline">Foglio</span></a
         >
       </li>
       <li class="nav-item">
-        <app-theme-selector />
+        <a routerLink="settings" class="nav-link"
+          ><i class="bi bi-gear-fill"></i>
+          <span class="ms-1 d-none d-md-inline">Impostazioni</span></a
+        >
       </li>
     </ul>
   </div>

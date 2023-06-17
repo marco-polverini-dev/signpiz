@@ -12,6 +12,13 @@ export const routes: Routes = [
       import('./feature/sheet/sheet.component').then((c) => c.SheetComponent),
   },
   {
+    path: 'settings',
+    loadComponent: () =>
+      import('./feature/settings/settings.component').then(
+        (c) => c.SettingsComponent
+      ),
+  },
+  {
     path: '**',
     redirectTo: '/sign',
   },

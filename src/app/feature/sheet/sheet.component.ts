@@ -1,13 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Sign, SHEET } from '../sign/sign.model';
-import { parse } from 'src/app/core/utils/json.utils';
+import { Sign } from '../sign/sign.model';
 import {
   getDate,
   getHours,
-  getTodayUnix,
   getUnix,
-  hour,
   isBetween,
 } from 'src/app/core/utils/date.utils';
 import {
@@ -17,6 +14,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { SheetService } from 'src/app/core/services/sheet.service';
 
 @Component({
   selector: 'app-sheet',
@@ -27,7 +25,8 @@ import {
 })
 export class SheetComponent {
   SHEET: Map<number, Sign>;
-  formBuilder: FormBuilder = inject(FormBuilder);
+  formBuilder: FormBuilder;
+  sheetService: SheetService;
   form: FormGroup;
   currentPage: number = 1;
   pageSize: number = 10;
@@ -35,6 +34,8 @@ export class SheetComponent {
   searched: boolean = false;
 
   constructor() {
+    this.formBuilder = inject(FormBuilder);
+    this.sheetService = inject(SheetService);
     this.SHEET = this.getSheet();
     this.calculatePages();
     this.form = this.formBuilder.group({
@@ -44,10 +45,7 @@ export class SheetComponent {
   }
 
   getSheet(): Map<number, Sign> {
-    let sheet = localStorage.getItem(SHEET);
-    return sheet
-      ? new Map<number, Sign>(parse(sheet))
-      : new Map<number, Sign>();
+    return this.sheetService.get();
   }
 
   getHours(unix?: number): string {
@@ -94,22 +92,5 @@ export class SheetComponent {
   calculatePages() {
     const entries = Array.from(this.SHEET.entries());
     this.pages = Math.ceil(entries.length / this.pageSize);
-  }
-
-  downloadBackup() {
-    const json = JSON.stringify(Array.from(this.SHEET.entries()));
-    var element = document.createElement('a');
-    element.setAttribute(
-      'href',
-      'data:text/json;charset=UTF-8,' + encodeURIComponent(json)
-    );
-    element.setAttribute(
-      'download',
-      'backup_timbrature_' + getTodayUnix() + '.json'
-    );
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click(); // simulate click
-    document.body.removeChild(element);
   }
 }

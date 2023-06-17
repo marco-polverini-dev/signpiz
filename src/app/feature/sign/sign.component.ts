@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { getHours, getTodayUnix } from 'src/app/core/utils/date.utils';
 import * as moment from 'moment';
 import { parse } from 'src/app/core/utils/json.utils';
 import { SHEET, Sign } from './sign.model';
+import { SheetService } from 'src/app/core/services/sheet.service';
 
 @Component({
   selector: 'app-sign',
@@ -14,8 +15,10 @@ import { SHEET, Sign } from './sign.model';
 })
 export class SignComponent {
   today?: Sign;
+  sheetService: SheetService;
 
   constructor() {
+    this.sheetService = inject(SheetService);
     this.today = this.getToday();
   }
 
@@ -42,10 +45,7 @@ export class SignComponent {
   }
 
   getSheet(): Map<number, Sign> {
-    let sheet = localStorage.getItem(SHEET);
-    return sheet
-      ? new Map<number, Sign>(parse(sheet))
-      : new Map<number, Sign>();
+    return this.sheetService.get();
   }
 
   getToday() {
@@ -53,8 +53,7 @@ export class SignComponent {
   }
 
   saveSheet(sheet: Map<number, Sign>) {
-    localStorage.setItem(SHEET, JSON.stringify(Array.from(sheet.entries())));
-    this.today = sheet.get(getTodayUnix());
+    this.today = this.sheetService.save(sheet);
   }
 
   getHours(unix: number): string {
