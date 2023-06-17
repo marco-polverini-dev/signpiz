@@ -1,102 +1,109 @@
 <div class="container">
-  <form [formGroup]="form" class="row mb-5" (ngSubmit)="find()">
-    <div class="col-1 col-md-auto">
-      <label for="da" class="col-form-label">Da</label>
-    </div>
-    <div class="col-11 col-md">
-      <input
-        type="date"
-        class="form-control"
-        formControlName="from"
-        name="from"
-        id="da"
-        placeholder="Da"
-        aria-label="Da"
-      />
-    </div>
-    <div class="col-1 mt-3 mt-md-0 col-md-auto">
-      <label for="a" class="col-form-label">A</label>
-    </div>
-    <div class="col-11 mt-3 mt-md-0 col-md">
-      <input
-        type="date"
-        class="form-control"
-        formControlName="to"
-        name="to"
-        id="a"
-        placeholder="A"
-        aria-label="A"
-      />
-    </div>
-    <div class="col-12 col-md-auto text-center mt-3 mt-md-0">
-      <button
-        [disabled]="form.invalid"
-        class="btn btn-success me-3"
-        type="submit"
-      >
-        Cerca
-      </button>
-      <button
-        [disabled]="!searched"
-        class="btn btn-danger"
-        type="button"
-        (click)="removeSearch()"
-      >
-        Annulla
-      </button>
-    </div>
-  </form>
-  <ol class="list-group mb-3">
-    <li
-      class="list-group-item d-flex justify-content-between align-items-center"
-    >
-      <div class="ms-2 me-auto">
-        <div class="fw-bold">Data</div>
+  <ng-container *ngIf="SHEET.size > 0">
+    <form [formGroup]="form" class="row mb-5" (ngSubmit)="find()">
+      <div class="col-1 col-md-auto">
+        <label for="da" class="col-form-label">Da</label>
       </div>
-      <span class="badge bg-success rounded-pill me-3">Entrata</span>
-      <span class="badge bg-danger rounded-pill">Uscita</span>
-    </li>
-    <li
-      class="list-group-item d-flex justify-content-between align-items-center"
-      *ngFor="
-        let entry of SHEET
-          | keyvalue
-          | slice : (currentPage - 1) * pageSize : currentPage * pageSize
-      "
-    >
-      <div class="ms-2 me-auto">
-        <div class="fw-bold">{{ getDate(entry.key) }}</div>
+      <div class="col-11 col-md">
+        <input
+          type="date"
+          class="form-control"
+          formControlName="from"
+          name="from"
+          id="da"
+          placeholder="Da"
+          aria-label="Da"
+        />
       </div>
-      <span class="badge bg-success rounded-pill me-3">{{
-        getHours(entry.value.entrance)
-      }}</span>
-      <span class="badge bg-danger rounded-pill">{{
-        getHours(entry.value.exit)
-      }}</span>
-    </li>
-  </ol>
-  <nav aria-label="Page navigation example">
-    <ul class="pagination pagination-sm justify-content-center">
-      <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
-        <a class="page-link pointer" (click)="previousPage()"
-          ><i class="bi bi-arrow-left"></i
-        ></a>
+      <div class="col-1 mt-3 mt-md-0 col-md-auto">
+        <label for="a" class="col-form-label">A</label>
+      </div>
+      <div class="col-11 mt-3 mt-md-0 col-md">
+        <input
+          type="date"
+          class="form-control"
+          formControlName="to"
+          name="to"
+          id="a"
+          placeholder="A"
+          aria-label="A"
+        />
+      </div>
+      <div class="col-12 col-md-auto text-center mt-3 mt-md-0">
+        <button
+          [disabled]="form.invalid"
+          class="btn btn-success me-3"
+          type="submit"
+        >
+          Cerca
+        </button>
+        <button
+          [disabled]="!searched"
+          class="btn btn-danger"
+          type="button"
+          (click)="removeSearch()"
+        >
+          Annulla
+        </button>
+      </div>
+    </form>
+    <ol class="list-group mb-3">
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Data</div>
+        </div>
+        <span class="badge bg-success rounded-pill me-3">Entrata</span>
+        <span class="badge bg-danger rounded-pill">Uscita</span>
       </li>
-      <li class="page-item d-flex align-items-center mx-2">
-        Pagina {{ currentPage }} di {{ pages }}
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+        *ngFor="
+          let entry of SHEET
+            | keyvalue
+            | slice : (currentPage - 1) * pageSize : currentPage * pageSize
+        "
+      >
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">{{ getDate(entry.key) }}</div>
+        </div>
+        <span class="badge bg-success rounded-pill me-3">{{
+          getHours(entry.value.entrance)
+        }}</span>
+        <span class="badge bg-danger rounded-pill">{{
+          getHours(entry.value.exit)
+        }}</span>
       </li>
-      <li class="page-item" [ngClass]="{ disabled: currentPage === pages }">
-        <a class="page-link pointer" (click)="nextPage()"
-          ><i class="bi bi-arrow-right"></i
-        ></a>
-      </li>
-    </ul>
-  </nav>
-  <div class="row mt-3">
-    <div class="col d-flex align-items-center justify-content-center">
-      <button class="btn btn-primary btn-sm" (click)="downloadBackup()">
-        Scarica backup
-      </button>
+    </ol>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination pagination-sm justify-content-center">
+        <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
+          <a class="page-link pointer" (click)="previousPage()"
+            ><i class="bi bi-arrow-left"></i
+          ></a>
+        </li>
+        <li class="page-item d-flex align-items-center mx-2">
+          Pagina {{ currentPage }} di {{ pages }}
+        </li>
+        <li class="page-item" [ngClass]="{ disabled: currentPage === pages }">
+          <a class="page-link pointer" (click)="nextPage()"
+            ><i class="bi bi-arrow-right"></i
+          ></a>
+        </li>
+      </ul>
+    </nav>
+    <div class="row mt-3">
+      <div class="col d-flex align-items-center justify-content-center">
+        <button class="btn btn-primary btn-sm" (click)="downloadBackup()">
+          Scarica backup
+        </button>
+      </div>
+    </div>
+  </ng-container>
+  <div class="row mt-5" *ngIf="SHEET.size === 0">
+    <div class="col">
+      <p class="text-center fw-bold fs-5">Non sono presenti timbrature 😀</p>
     </div>
   </div>
 </div>
