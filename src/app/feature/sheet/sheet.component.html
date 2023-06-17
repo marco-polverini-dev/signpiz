@@ -91,7 +91,7 @@
         <span class="badge bg-success rounded-pill me-3">{{
           getHours(entry.value.entrance)
         }}</span>
-        <span class="badge bg-danger rounded-pill">{{
+        <span class="badge bg-danger rounded-pill" *ngIf="entry.value.exit">{{
           getHours(entry.value.exit)
         }}</span>
       </li>
