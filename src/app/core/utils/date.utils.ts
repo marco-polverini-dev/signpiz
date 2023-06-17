@@ -13,6 +13,15 @@ export function getUnix(date: string) {
     .valueOf();
 }
 
+export function hour(date: string, morning: boolean) {
+  return moment(date, 'yyyy/MM/DD')
+    .hours(morning ? 8 : 13)
+    .minutes(0)
+    .seconds(0)
+    .milliseconds(0)
+    .valueOf();
+}
+
 export const getHours = (unix?: number) => {
   return moment(unix).format('HH:mm');
 };
