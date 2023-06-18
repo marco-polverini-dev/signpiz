@@ -69,21 +69,21 @@
           <div class="fw-bold d-flex align-items-center">
             {{ getDate(entry.key)
             }}<a
+              *ngIf="today === entry.key"
               type="button"
               class="ms-2 text-primary"
               aria-label="modifica la giornata"
-              ><i class="bi bi-pencil-fill"></i> </a
-            ><a
-              *ngIf="entry.key === today"
-              type="button"
-              class="ms-2 text-warning"
-              aria-label="rimuovi uscita"
-              ><i class="bi bi-pencil-square"></i>
+              data-bs-toggle="modal"
+              [attr.data-bs-target]="'#modalEdit-' + entry.key"
+              ><i class="bi bi-pencil-fill"></i>
             </a>
             <a
+              *ngIf="today === entry.key"
               type="button"
               class="ms-2 text-danger"
               aria-label="rimuove la giornata"
+              data-bs-toggle="modal"
+              [attr.data-bs-target]="'#modalDelete-' + entry.key"
               ><i class="bi bi-trash-fill"></i>
             </a>
           </div>
@@ -94,6 +94,11 @@
         <span class="badge bg-danger rounded-pill" *ngIf="entry.value.exit">{{
           getHours(entry.value.exit)
         }}</span>
+        <app-modal-edit [entry]="entry" (reload)="reload()"></app-modal-edit>
+        <app-modal-remove
+          [entry]="entry"
+          (reload)="reload()"
+        ></app-modal-remove>
       </li>
     </ol>
     <nav aria-label="Page navigation example">
@@ -120,14 +125,6 @@
             ><i class="bi bi-pencil-fill"></i>
           </a>
           <small class="text-muted">Modifica la giornata</small>
-        </div>
-      </div>
-      <div class="col-auto">
-        <div class="d-flex align-items-center justify-content-center">
-          <a class="mx-2 text-warning" aria-label="rimuovi uscita"
-            ><i class="bi bi-pencil-square"></i>
-          </a>
-          <small class="text-muted">Rimuove l'uscita del giorno</small>
         </div>
       </div>
       <div class="col-auto">

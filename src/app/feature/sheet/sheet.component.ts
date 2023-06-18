@@ -16,11 +16,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { SheetService } from 'src/app/core/services/sheet.service';
+import { ModalEditComponent } from './modal-edit/modal-edit.component';
+import { ModalRemoveComponent } from './modal-remove/modal-remove.component';
 
 @Component({
   selector: 'app-sheet',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ModalEditComponent,
+    ModalRemoveComponent,
+  ],
   templateUrl: './sheet.component.html',
   styleUrls: ['./sheet.component.scss'],
 })
@@ -57,6 +65,10 @@ export class SheetComponent {
 
   getDate(unix?: number): string {
     return getDate(unix);
+  }
+
+  reload() {
+    this.SHEET = this.getSheet();
   }
 
   find() {
